@@ -163,20 +163,20 @@ window.addEventListener('scroll', () => {
 });
 
 // Music Control
-let musicPlaying = false;
-function toggleMusic() {
-    musicPlaying = !musicPlaying;
-    const icon = document.querySelector('#musicBtn i');
+// let musicPlaying = false;
+// function toggleMusic() {
+//     musicPlaying = !musicPlaying;
+//     const icon = document.querySelector('#musicBtn i');
     
-    if (musicPlaying) {
-        icon.className = 'fas fa-volume-mute';
-        // Tambahkan audio element di sini
-        console.log('Music playing...');
-    } else {
-        icon.className = 'fas fa-volume-up';
-        console.log('Music paused');
-    }
-}
+//     if (musicPlaying) {
+//         icon.className = 'fas fa-volume-mute';
+//         // Tambahkan audio element di sini
+//         console.log('Music playing...');
+//     } else {
+//         icon.className = 'fas fa-volume-up';
+//         console.log('Music paused');
+//     }
+// }
 
 // Guestbook Submit
 function submitMessage(e) {

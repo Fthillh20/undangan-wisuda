@@ -1321,11 +1321,12 @@ p {
 .carousel-slide {
     min-width: 100%;
     position: relative;
+    height: 550px; /* Fixed height untuk konsistensi */
 }
 
 .slide-image {
     width: 100%;
-    height: 550px;
+    height: 100%; /* Mengisi seluruh slide */
     background: linear-gradient(135deg, #1a3a5c, #0b1f3a);
     display: flex;
     align-items: center;
@@ -1334,31 +1335,48 @@ p {
     overflow: hidden;
 }
 
-/* Image styling for proper fit */
+/* Image styling for proper fit - UPDATED */
 .slide-image img {
     width: 100%;
     height: 100%;
+    /* IMPORTANT: Pilih salah satu mode di bawah */
+    
+    /* Mode 1: Cover - Gambar fill penuh, mungkin terpotong sedikit */
     object-fit: cover;
+    
+    /* Mode 2: Contain - Gambar utuh terlihat semua, mungkin ada space */
+    /* object-fit: contain; */
+    
+    /* Mode 3: Fill - Gambar stretch memenuhi area */
+    /* object-fit: fill; */
+    
     object-position: center;
+    display: block; /* Menghilangkan spacing */
     transition: transform 0.6s ease;
     filter: brightness(0.95);
 }
 
+/* Hover effect tetap smooth */
 .carousel-slide:hover .slide-image img {
-    transform: scale(1.1);
+    transform: scale(1.05); /* Dikurangi dari 1.1 agar tidak terlalu zoom */
     filter: brightness(1);
 }
 
+/* Icon placeholder jika gambar belum ada */
 .slide-image i {
     font-size: 5rem;
     color: #1e88e5;
     opacity: 0.3;
     animation: icon-float 3s infinite ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @keyframes icon-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-20px); }
 }
 
 .slide-caption {
@@ -1374,6 +1392,7 @@ p {
     font-weight: 500;
     transform: translateY(0);
     transition: all 0.3s;
+    z-index: 10; /* Di atas gambar */
 }
 
 .carousel-slide:hover .slide-caption {
@@ -1394,7 +1413,7 @@ p {
     cursor: pointer;
     font-size: 1.5rem;
     transition: all 0.3s;
-    z-index: 10;
+    z-index: 100; /* Di atas semua elemen */
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
 }
 
@@ -1438,6 +1457,242 @@ p {
     transform: scale(1.3);
     border-color: #d4af37;
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Grid Gallery (Second Gallery) - UPDATED */
+.grid-gallery {
+    max-width: 1200px;
+    width: 100%;
+    margin: 80px auto 0;
+    position: relative;
+    z-index: 1;
+}
+
+.grid-gallery-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #0b1f3a;
+    position: relative;
+}
+
+.grid-gallery-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #1e88e5, transparent);
+    margin: 15px auto;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 4/3; /* Ratio konsisten untuk semua item */
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.15);
+    border: 3px solid #d4af37;
+    background: #f5f7fa; /* Background fallback */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.9) 0%,
+        rgba(30, 136, 229, 0.9) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 2;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 50px rgba(11, 31, 58, 0.3);
+    border-color: #1e88e5;
+}
+
+/* Image styling untuk grid - UPDATED */
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    
+    /* IMPORTANT: Pilih mode yang sesuai */
+    
+    /* Mode 1: Cover - Recommended untuk grid */
+    object-fit: cover;
+    
+    /* Mode 2: Contain - Jika ingin gambar utuh terlihat */
+    /* object-fit: contain; */
+    
+    /* Mode 3: Fill - Stretch gambar */
+    /* object-fit: fill; */
+    
+    object-position: center;
+    display: block;
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1) rotate(2deg);
+}
+
+/* Icon placeholder untuk grid */
+.gallery-item i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: #1e88e5;
+    opacity: 0.25;
+    z-index: 1;
+    transition: all 0.4s;
+}
+
+.gallery-item:hover i {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+.gallery-item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(11, 31, 58, 0.9));
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.4s;
+    z-index: 3;
+    text-align: center;
+}
+
+.gallery-item:hover .gallery-item-overlay {
+    transform: translateY(0);
+}
+
+.gallery-item-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Responsive untuk Gallery */
+@media (max-width: 768px) {
+    /* Carousel Mobile */
+    .carousel-slide {
+        height: 350px; /* Dikurangi di mobile */
+    }
+    
+    .slide-image {
+        height: 100%;
+    }
+    
+    .slide-caption { 
+        font-size: 1rem; 
+        padding: 20px; 
+    }
+    
+    .carousel-btn { 
+        width: 45px; 
+        height: 45px; 
+        font-size: 1.2rem;
+    }
+    .carousel-prev { left: 10px; }
+    .carousel-next { right: 10px; }
+    
+    /* Grid Gallery Mobile */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .gallery-item {
+        aspect-ratio: 16/9; /* Lebih landscape di mobile */
+    }
+    
+    .grid-gallery-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 575px) {
+    /* Carousel Extra Small */
+    .carousel-slide {
+        height: 280px;
+    }
+    
+    .slide-caption {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+    
+    .carousel-btn { 
+        width: 40px; 
+        height: 40px; 
+        font-size: 1rem;
+    }
+    
+    /* Grid Gallery Extra Small */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+    
+    .gallery-item {
+        aspect-ratio: 16/9;
+    }
+    
+    .gallery-item i {
+        font-size: 3rem;
+    }
+    
+    .grid-gallery-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* Landscape Tablet */
+@media (min-width: 576px) and (max-width: 991px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .carousel-slide {
+        height: 400px;
+    }
+}
+
+/* Desktop Large */
+@media (min-width: 1200px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .carousel-slide {
+        height: 600px;
+    }
 }
 
 /* Grid Gallery (Second Gallery) */
